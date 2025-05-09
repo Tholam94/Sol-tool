@@ -13,6 +13,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 :MENU
 CLS
+ECHO Version 1
 ECHO [37m===========================================================[0m
 echo [37m^|[0m                [31mCONG TY TNHH SOL[0m                              
 echo [37m^|[0m            [32mCONG CU BAO TRI HE THONG SOL[0m                      
@@ -27,7 +28,8 @@ ECHO [31m4.[0m Don dep RAM
 ECHO [31m5.[0m Xoa file rac (Windows, Google, Zalo)
 ECHO [31m6.[0m Kiem tra dung luong o cung
 ECHO [31m7.[0m Kiem tra va sua loi mang
-ECHO [31m8.[0m Thoat
+ECHO [31m8.[0m Cap nhat ung dung
+ECHO [31m9.[0m Thoat
 echo.
 ECHO [37m                                                           [0m                                                       
 echo [32m                     HUONG DAN SU DUNG                     [0m
@@ -46,7 +48,8 @@ IF "%CHOICE%"=="4" GOTO RAM
 IF "%CHOICE%"=="5" GOTO CLEAN
 IF "%CHOICE%"=="6" GOTO CHECKDISK
 IF "%CHOICE%"=="7" GOTO FIXNETWORK
-IF "%CHOICE%"=="8" EXIT
+IF "%CHOICE%"=="8" GOTO UPDATE
+IF "%CHOICE%"=="9" EXIT
 
 ECHO [31m[LOI]: LUA CHON KHONG HOP LE! VUI LONG NHAP LAI.[0m
 PAUSE
@@ -351,3 +354,34 @@ IF %DOWNLOAD%==0 (
 DEL speedtest_result.json
 PAUSE
 GOTO MENU
+
+:UPDATE
+@echo off
+setlocal
+
+:: ======== THIET LAP ========
+set "URL=https://raw.githubusercontent.com/Tholam94/Sol-tool/refs/heads/main/updater.bat"
+set "TMPFILE=%TEMP%\tool_new.bat"
+set "APPFILE=%~f0"
+set "UPDATER=%TEMP%\updater.bat"
+
+echo [INFO] Dang tai ban cap nhat moi...
+powershell -Command "Invoke-WebRequest -Uri '%URL%' -OutFile '%TMPFILE%'"
+
+if not exist "%TMPFILE%" (
+    echo [ERROR] Khong the tai ban cap nhat moi.
+    pause
+    goto MENU
+)
+
+echo [INFO] Dang cap nhat...
+> "%UPDATER%" (
+    echo @echo off
+    echo timeout /t 2 ^>nul
+    echo copy /Y "%TMPFILE%" "%APPFILE%" ^>nul
+    echo start "" "%APPFILE%"
+    echo del "%%~f0"
+)
+
+start "" "%UPDATER%"
+exit
