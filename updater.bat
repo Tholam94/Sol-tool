@@ -13,7 +13,7 @@ IF %ERRORLEVEL% NEQ 0 (
 
 :MENU
 CLS
-ECHO Version 1
+ECHO V1.00
 ECHO [37m===========================================================[0m
 echo [37m^|[0m                [31mCONG TY TNHH SOL[0m                              
 echo [37m^|[0m            [32mCONG CU BAO TRI HE THONG SOL[0m                      
@@ -219,7 +219,7 @@ WMIC DISKDRIVE GET STATUS | FIND "OK" >nul 2>&1
 IF %ERRORLEVEL%==0 (
     ECHO.
     ECHO ======================================================
-    ECHO [34m --- O CUNG VAN DANG HOAT DONG TOT! [0m
+    ECHO [32m --- O CUNG VAN DANG HOAT DONG TOT! [0m
     ECHO ======================================================
 ) ELSE (
     ECHO.
@@ -264,7 +264,7 @@ IF %ERRORLEVEL%==0 (
 :: Final message
 ECHO.
 ECHO ======================================================
-ECHO [34m---KIEM TRA VA TOI UU HOA O CUNG HOAN TAT![0m
+ECHO [32m---KIEM TRA VA TOI UU HOA O CUNG HOAN TAT![0m
 ECHO ======================================================
 ECHO.
 
@@ -299,7 +299,7 @@ IF %NET_STATUS% NEQ 0 (
     IF %NET_STATUS% NEQ 0 (
         ECHO.
         ECHO [37m===========================================================[0m
-        ECHO [37m^|[0m   [31mVAN KHONG CO INTERNET! KIEM TRA ROUTER![0m   [37m^|[0m
+        ECHO [37m^|[0m   [31mVAN KHONG CO INTERNET! KIEM TRA DAY MANG![0m   [37m^|[0m
         ECHO [37m===========================================================[0m
         PAUSE
         GOTO MENU
