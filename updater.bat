@@ -29,7 +29,8 @@ ECHO [31m5.[0m Xoa file rac (Windows, Google, Zalo)
 ECHO [31m6.[0m Kiem tra dung luong o cung
 ECHO [31m7.[0m Kiem tra va sua loi mang
 ECHO [31m8.[0m Cap nhat ung dung
-ECHO [31m9.[0m Thoat
+ECHO [31m9.[0m Danh gia cong cu
+ECHO [31m0.[0m Thoat
 echo.
 ECHO [37m                                                           [0m                                                       
 echo [32m                     HUONG DAN SU DUNG                     [0m
@@ -49,7 +50,8 @@ IF "%CHOICE%"=="5" GOTO CLEAN
 IF "%CHOICE%"=="6" GOTO CHECKDISK
 IF "%CHOICE%"=="7" GOTO FIXNETWORK
 IF "%CHOICE%"=="8" GOTO UPDATE
-IF "%CHOICE%"=="9" EXIT
+IF "%CHOICE%"=="9" GOTO DANHGIA
+IF "%CHOICE%"=="0" EXIT
 
 ECHO [31m[LOI]: LUA CHON KHONG HOP LE! VUI LONG NHAP LAI.[0m
 PAUSE
@@ -354,6 +356,10 @@ IF %DOWNLOAD%==0 (
 DEL speedtest_result.json
 PAUSE
 GOTO MENU
+
+:DANHGIA
+start https://docs.google.com/forms/d/e/1FAIpQLSee3Xa7HVC3D1bXvQG613YUW8NHq5bfXRLq3chjvanxFCwLrw/viewform?usp=header
+goto MENU
 
 :UPDATE
 @echo off
